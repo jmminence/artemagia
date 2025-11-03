@@ -1,0 +1,157 @@
+====================================
+REGISTROS DNS PARA ZOHO MAIL
+Dominio: artemagia.com (o tu dominio)
+====================================
+
+⚠️ IMPORTANTE: Reemplaza "artemagia.com" con tu dominio real
+⚠️ IMPORTANTE: Reemplaza "zb-XXXX" con el código real que te dé Zoho
+
+------------------------------------
+1. VERIFICACIÓN DE DOMINIO
+------------------------------------
+Tipo: TXT
+Nombre/Host: @ (o vacío o tu-dominio.com)
+Valor: zb-XXXXXXXXXXXXXXXXXXXXXXXXXX
+TTL: 3600 (o Automático)
+
+NOTA: Obtén el código "zb-XXX" del panel de Zoho cuando agregues tu dominio
+
+
+------------------------------------
+2. REGISTROS MX (RECIBIR CORREOS)
+------------------------------------
+
+⚠️ ELIMINA PRIMERO todos los registros MX existentes (Gmail, Outlook, etc.)
+
+Registro MX #1:
+Tipo: MX
+Nombre/Host: @ (o vacío o tu-dominio.com)
+Valor/Apunta a: mx.zoho.com
+Prioridad: 10
+TTL: 3600
+
+Registro MX #2:
+Tipo: MX
+Nombre/Host: @ (o vacío o tu-dominio.com)
+Valor/Apunta a: mx2.zoho.com
+Prioridad: 20
+TTL: 3600
+
+Registro MX #3:
+Tipo: MX
+Nombre/Host: @ (o vacío o tu-dominio.com)
+Valor/Apunta a: mx3.zoho.com
+Prioridad: 50
+TTL: 3600
+
+
+------------------------------------
+3. REGISTRO SPF (ANTI-SPAM)
+------------------------------------
+
+⚠️ Solo puede haber UN registro SPF por dominio
+
+Si NO tienes registro SPF previo:
+Tipo: TXT
+Nombre/Host: @ (o vacío o tu-dominio.com)
+Valor: v=spf1 include:zoho.com ~all
+TTL: 3600
+
+Si YA tienes registro SPF (ejemplo: v=spf1 include:_spf.google.com ~all):
+Tipo: TXT
+Nombre/Host: @ (o vacío o tu-dominio.com)
+Valor: v=spf1 include:zoho.com include:_spf.google.com ~all
+TTL: 3600
+
+
+------------------------------------
+4. REGISTRO DKIM (AUTENTICACIÓN)
+------------------------------------
+
+⚠️ OBTÉN ESTOS VALORES DEL PANEL DE ZOHO
+   Zoho Panel → Email Configuration → DKIM → Enable
+
+Tipo: TXT
+Nombre/Host: zoho._domainkey (o zoho._domainkey.tu-dominio.com)
+Valor: v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNAD... (será muy largo)
+TTL: 3600
+
+NOTA: El valor comenzará con "v=DKIM1" y será muy largo (varios cientos de caracteres)
+
+
+------------------------------------
+5. REGISTRO DMARC (OPCIONAL)
+------------------------------------
+
+Tipo: TXT
+Nombre/Host: _dmarc (o _dmarc.tu-dominio.com)
+Valor: v=DMARC1; p=none; rua=mailto:postmaster@artemagia.com
+TTL: 3600
+
+NOTA: Reemplaza "artemagia.com" con tu correo real
+
+
+====================================
+EJEMPLO COMPLETO PARA artemagia.com
+====================================
+
+1. TXT | @ | zb-ABC123XYZ789 | 3600
+2. MX | @ | mx.zoho.com | 10 | 3600
+3. MX | @ | mx2.zoho.com | 20 | 3600
+4. MX | @ | mx3.zoho.com | 50 | 3600
+5. TXT | @ | v=spf1 include:zoho.com ~all | 3600
+6. TXT | zoho._domainkey | v=DKIM1; k=rsa; p=MIGf... | 3600
+7. TXT | _dmarc | v=DMARC1; p=none; rua=mailto:postmaster@artemagia.com | 3600
+
+
+====================================
+VERIFICACIÓN
+====================================
+
+Después de agregar los registros DNS:
+
+1. Espera 15-30 minutos (puede tardar hasta 48h)
+
+2. Verifica en:
+   - https://mxtoolbox.com/SuperTool.aspx
+   - https://dnschecker.org/
+   - Panel de Zoho: "Verify" o "Check DNS"
+
+3. Prueba envío/recepción:
+   - Envía correo desde Zoho a tu email personal
+   - Envía correo desde tu email personal a tu nuevo correo Zoho
+
+
+====================================
+PROVEEDORES DNS COMUNES
+====================================
+
+GoDaddy: DNS Management → Agregar registro
+Namecheap: Advanced DNS → Add New Record
+Cloudflare: DNS → Add record
+Google Domains: DNS → Custom records
+NIC Chile: Administración de zona DNS
+
+
+====================================
+NOTAS IMPORTANTES
+====================================
+
+✅ Los registros TXT deben estar entre comillas en algunos proveedores
+✅ El "@" significa raíz del dominio (tu-dominio.com)
+✅ Algunos proveedores agregan automáticamente el dominio al nombre
+✅ TTL puede estar en segundos (3600) o minutos (60)
+✅ La propagación DNS es gradual, ten paciencia
+
+❌ NO agregues múltiples registros SPF (solo uno)
+❌ NO dejes espacios extra en los valores
+❌ NO olvides el punto final en algunos proveedores DNS
+
+
+====================================
+SOPORTE
+====================================
+
+Zoho Support: support@zohomail.com
+Documentación: https://www.zoho.com/mail/help/
+

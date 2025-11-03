@@ -1,0 +1,174 @@
+---
+const services = [
+	{
+		title: "Magia para Eventos Corporativos",
+		description: "Shows personalizados para empresas, convenciones, lanzamientos de productos y eventos corporativos. Integramos tu mensaje de marca de manera mágica.",
+		icon: "🏢"
+	},
+	{
+		title: "Magia para Bodas",
+		description: "Haz de tu día especial un momento aún más memorable. Magia elegante durante el cocktail, recepción o como parte del entretenimiento principal.",
+		icon: "💍"
+	},
+	{
+		title: "Shows para Fiestas Infantiles",
+		description: "Diversión garantizada para los más pequeños. Shows interactivos, coloridos y llenos de asombro adaptados a cada edad.",
+		icon: "🎈"
+	},
+	{
+		title: "Magia de Cerca (Close-up)",
+		description: "Ilusionismo íntimo y directo con tu audiencia. Perfecto para eventos sociales, cenas y reuniones donde la magia sucede en las manos de tus invitados.",
+		icon: "🃏"
+	},
+	{
+		title: "Shows de Escenario",
+		description: "Presentaciones de gran formato con ilusiones impactantes, tecnología y efectos especiales. Ideal para teatros, auditorios y grandes celebraciones.",
+		icon: "🎭"
+	},
+	{
+		title: "Magia Virtual",
+		description: "Llevamos la magia al mundo digital. Shows en vivo vía streaming perfectos para eventos online, webinars corporativos y celebraciones virtuales.",
+		icon: "💻"
+	},
+	{
+		title: "Mentalismo",
+		description: "Lectura de mentes, predicciones imposibles y demostraciones psicológicas que desafían la lógica. Perfecto para eventos corporativos sofisticados.",
+		icon: "🧠"
+	}
+];
+---
+
+<section id="servicios" class="services">
+	<div class="container">
+		<h2 class="section-title">Nuestros Servicios</h2>
+		<p class="section-subtitle">
+			Magia profesional adaptada a cada ocasión y audiencia
+		</p>
+
+		<div class="services-grid">
+			{services.map((service) => (
+				<div class="service-card">
+					<div class="service-icon">{service.icon}</div>
+					<h3 class="service-title">{service.title}</h3>
+					<p class="service-description">{service.description}</p>
+					<a href="#contacto" class="service-link">
+						Solicitar información
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+							<path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+						</svg>
+					</a>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.services {
+		padding: 6rem 0;
+		background: var(--color-dark);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.services::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 100%;
+		background: 
+			radial-gradient(circle at 20% 30%, rgba(107, 70, 193, 0.1) 0%, transparent 50%),
+			radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.1) 0%, transparent 50%);
+		pointer-events: none;
+	}
+
+	.services .section-title,
+	.services .section-subtitle {
+		color: var(--color-white);
+	}
+
+	.services .section-title {
+		background: linear-gradient(135deg, var(--color-accent), #FFD700);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.services-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 2.5rem;
+		margin-top: 3rem;
+		position: relative;
+		z-index: 1;
+	}
+
+	.service-card {
+		background: rgba(255, 255, 255, 0.05);
+		backdrop-filter: blur(10px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 20px;
+		padding: 2.5rem;
+		transition: all 0.3s ease;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.service-card:hover {
+		transform: translateY(-10px);
+		background: rgba(255, 255, 255, 0.08);
+		border-color: var(--color-accent);
+		box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+	}
+
+	.service-icon {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.service-title {
+		font-size: 1.5rem;
+		color: var(--color-white);
+		margin-bottom: 0.5rem;
+	}
+
+	.service-description {
+		color: rgba(255, 255, 255, 0.8);
+		line-height: 1.7;
+		flex-grow: 1;
+	}
+
+	.service-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--color-accent);
+		text-decoration: none;
+		font-weight: 600;
+		margin-top: 1rem;
+		transition: all 0.3s ease;
+	}
+
+	.service-link:hover {
+		gap: 1rem;
+	}
+
+	.service-link svg {
+		transition: transform 0.3s ease;
+	}
+
+	.service-link:hover svg {
+		transform: translateX(5px);
+	}
+
+	@media (max-width: 768px) {
+		.services-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+

@@ -1,0 +1,146 @@
+---
+---
+
+<section id="produccion" class="production">
+	<div class="container">
+		<h2 class="section-title">Producción de Eventos</h2>
+		<p class="section-subtitle">
+			Planificación integral para hacer de tu evento una experiencia memorable
+		</p>
+
+		<div class="production-content">
+			<div class="production-features">
+				<div class="feature-card">
+					<div class="feature-icon">
+						<svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+							<circle cx="25" cy="25" r="23" stroke="currentColor" stroke-width="2"/>
+							<path d="M15 25L22 32L35 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+						</svg>
+					</div>
+					<h3>Planificación Detallada</h3>
+					<p>Diseñamos cada aspecto de tu evento, desde el concepto inicial hasta la ejecución final.</p>
+				</div>
+
+				<div class="feature-card">
+					<div class="feature-icon">
+						<svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+							<rect x="5" y="12" width="40" height="30" rx="3" stroke="currentColor" stroke-width="2"/>
+							<circle cx="25" cy="27" r="6" stroke="currentColor" stroke-width="2"/>
+							<path d="M25 5L28 12L22 12Z" fill="currentColor"/>
+						</svg>
+					</div>
+					<h3>Equipamiento Profesional</h3>
+					<p>Contamos con tecnología de última generación para shows de alto impacto visual.</p>
+				</div>
+
+				<div class="feature-card">
+					<div class="feature-icon">
+						<svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+							<circle cx="15" cy="15" r="8" stroke="currentColor" stroke-width="2"/>
+							<circle cx="35" cy="20" r="8" stroke="currentColor" stroke-width="2"/>
+							<circle cx="25" cy="35" r="8" stroke="currentColor" stroke-width="2"/>
+							<line x1="20" y1="18" x2="28" y2="22" stroke="currentColor" stroke-width="2"/>
+							<line x1="30" y1="26" x2="27" y2="30" stroke="currentColor" stroke-width="2"/>
+						</svg>
+					</div>
+					<h3>Equipo Multidisciplinario</h3>
+					<p>Colaboramos con profesionales de iluminación, sonido y escenografía.</p>
+				</div>
+
+				<div class="feature-card">
+					<div class="feature-icon">
+						<svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+							<path d="M25 5L30 20L45 20L33 29L38 44L25 35L12 44L17 29L5 20L20 20Z" stroke="currentColor" stroke-width="2" fill="none"/>
+						</svg>
+					</div>
+					<h3>Personalización Total</h3>
+					<p>Adaptamos cada show a la temática y objetivos específicos de tu evento.</p>
+				</div>
+
+				<div class="feature-card">
+					<div class="feature-icon">
+						<svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+							<rect x="8" y="13" width="34" height="27" rx="2" stroke="currentColor" stroke-width="2"/>
+							<path d="M20 20L30 25L20 30V20Z" fill="currentColor"/>
+							<circle cx="37" cy="37" r="8" stroke="currentColor" stroke-width="2"/>
+							<path d="M42 42L47 47" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+						</svg>
+					</div>
+					<h3>Asesoría Especializada</h3>
+					<p>Te guiamos en cada decisión para garantizar el éxito de tu evento.</p>
+				</div>
+
+				<div class="feature-card">
+					<div class="feature-icon">
+						<svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+							<circle cx="25" cy="25" r="20" stroke="currentColor" stroke-width="2"/>
+							<path d="M25 10V25L35 30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+						</svg>
+					</div>
+					<h3>Puntualidad Garantizada</h3>
+					<p>Cumplimiento estricto de horarios y cronogramas establecidos.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.production {
+		padding: 6rem 0;
+		background: linear-gradient(180deg, var(--color-white) 0%, var(--color-light) 100%);
+	}
+
+	.production-features {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+		margin-top: 3rem;
+	}
+
+	.feature-card {
+		background: var(--color-white);
+		padding: 2.5rem 2rem;
+		border-radius: 15px;
+		box-shadow: var(--shadow-md);
+		transition: all 0.3s ease;
+		border: 2px solid transparent;
+	}
+
+	.feature-card:hover {
+		transform: translateY(-10px);
+		box-shadow: var(--shadow-lg);
+		border-color: var(--color-primary);
+	}
+
+	.feature-icon {
+		width: 70px;
+		height: 70px;
+		background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+		color: var(--color-white);
+	}
+
+	.feature-card h3 {
+		font-size: 1.4rem;
+		color: var(--color-dark);
+		margin-bottom: 1rem;
+	}
+
+	.feature-card p {
+		color: var(--color-text-light);
+		line-height: 1.6;
+	}
+
+	@media (max-width: 768px) {
+		.production-features {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+

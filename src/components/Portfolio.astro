@@ -1,0 +1,173 @@
+---
+const portfolio = [
+	{ id: 1, title: "Evento Corporativo Tech Summit 2024", category: "Corporativo" },
+	{ id: 2, title: "Boda Garden Estate", category: "Bodas" },
+	{ id: 3, title: "Cumpleaños Premium Kids", category: "Infantil" },
+	{ id: 4, title: "Gala Benéfica Anual", category: "Escenario" },
+	{ id: 5, title: "Show Virtual Empresa Global", category: "Virtual" },
+	{ id: 6, title: "Convención Anual Ventas", category: "Corporativo" },
+	{ id: 7, title: "Fiesta de Fin de Año", category: "Eventos" },
+	{ id: 8, title: "Lanzamiento de Producto", category: "Corporativo" }
+];
+---
+
+<section id="portafolio" class="portfolio">
+	<div class="container">
+		<h2 class="section-title">Trabajos Realizados</h2>
+		<p class="section-subtitle">
+			Algunos de los eventos donde hemos creado momentos inolvidables
+		</p>
+
+		<div class="portfolio-grid">
+			{portfolio.map((item) => (
+				<div class="portfolio-item">
+					<div class="portfolio-image">
+						<svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<rect width="400" height="300" fill="url(#portfolioGrad{item.id})"/>
+							<circle cx="200" cy="150" r="60" fill="white" opacity="0.2"/>
+							<path d="M200 100L210 130L240 130L216 148L226 178L200 160L174 178L184 148L160 130L190 130Z" fill="white" opacity="0.4"/>
+							<defs>
+								<linearGradient id="portfolioGrad{item.id}" x1="0" y1="0" x2="400" y2="300">
+									<stop offset="0%" style={`stop-color:${item.id % 2 === 0 ? '#6B46C1' : '#9333EA'}`}/>
+									<stop offset="100%" style={`stop-color:${item.id % 2 === 0 ? '#9333EA' : '#6B46C1'}`}/>
+								</linearGradient>
+							</defs>
+						</svg>
+						<div class="portfolio-overlay">
+							<span class="portfolio-category">{item.category}</span>
+						</div>
+					</div>
+					<div class="portfolio-info">
+						<h3>{item.title}</h3>
+					</div>
+				</div>
+			))}
+		</div>
+
+		<div class="portfolio-cta">
+			<p>¿Quieres que tu evento sea el próximo en nuestra galería?</p>
+			<a href="#contacto" class="btn btn-primary">Contáctanos ahora</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.portfolio {
+		padding: 6rem 0;
+		background: var(--color-light);
+	}
+
+	.portfolio-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 2rem;
+		margin-top: 3rem;
+	}
+
+	.portfolio-item {
+		background: var(--color-white);
+		border-radius: 15px;
+		overflow: hidden;
+		box-shadow: var(--shadow-md);
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
+
+	.portfolio-item:hover {
+		transform: translateY(-10px);
+		box-shadow: var(--shadow-xl);
+	}
+
+	.portfolio-image {
+		position: relative;
+		aspect-ratio: 4/3;
+		overflow: hidden;
+	}
+
+	.portfolio-image svg {
+		width: 100%;
+		height: 100%;
+		display: block;
+		transition: transform 0.3s ease;
+	}
+
+	.portfolio-item:hover .portfolio-image svg {
+		transform: scale(1.1);
+	}
+
+	.portfolio-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+		display: flex;
+		align-items: flex-end;
+		padding: 1.5rem;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.portfolio-item:hover .portfolio-overlay {
+		opacity: 1;
+	}
+
+	.portfolio-category {
+		background: var(--color-accent);
+		color: var(--color-dark);
+		padding: 0.5rem 1rem;
+		border-radius: 20px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.portfolio-info {
+		padding: 1.5rem;
+	}
+
+	.portfolio-info h3 {
+		font-size: 1.1rem;
+		color: var(--color-dark);
+		margin: 0;
+	}
+
+	.portfolio-cta {
+		text-align: center;
+		margin-top: 4rem;
+		padding: 3rem 2rem;
+		background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+		border-radius: 20px;
+		color: var(--color-white);
+	}
+
+	.portfolio-cta p {
+		font-size: 1.5rem;
+		margin-bottom: 1.5rem;
+		font-weight: 500;
+	}
+
+	.portfolio-cta .btn {
+		background: var(--color-white);
+		color: var(--color-primary);
+	}
+
+	.portfolio-cta .btn:hover {
+		background: var(--color-accent);
+		color: var(--color-dark);
+	}
+
+	@media (max-width: 768px) {
+		.portfolio-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.portfolio-cta p {
+			font-size: 1.2rem;
+		}
+	}
+</style>
+
+

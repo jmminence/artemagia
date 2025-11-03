@@ -1,0 +1,168 @@
+---
+---
+
+<nav class="navbar">
+	<div class="container">
+		<div class="nav-content">
+			<a href="#inicio" class="logo">
+				<span class="logo-text">Arte</span><span class="logo-magic">magia</span>
+			</a>
+			
+			<button class="menu-toggle" aria-label="Toggle menu">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+
+			<ul class="nav-links">
+				<li><a href="#inicio">Inicio</a></li>
+				<li><a href="#nosotros">Nosotros</a></li>
+				<li><a href="#produccion">Producción</a></li>
+				<li><a href="#servicios">Servicios</a></li>
+				<li><a href="#portafolio">Portafolio</a></li>
+				<li><a href="#contacto" class="btn btn-primary btn-nav">Contacto</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<style>
+	.navbar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		background: rgba(26, 11, 46, 0.95);
+		backdrop-filter: blur(10px);
+		z-index: 1000;
+		box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+	}
+
+	.nav-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1.2rem 0;
+	}
+
+	.logo {
+		font-family: var(--font-heading);
+		font-size: 1.8rem;
+		font-weight: 700;
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+	}
+
+	.logo-text {
+		color: var(--color-white);
+	}
+
+	.logo-magic {
+		color: var(--color-accent);
+	}
+
+	.nav-links {
+		display: flex;
+		list-style: none;
+		gap: 2.5rem;
+		align-items: center;
+	}
+
+	.nav-links a {
+		color: var(--color-white);
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 0.3s ease;
+		position: relative;
+	}
+
+	.nav-links a:not(.btn)::after {
+		content: '';
+		position: absolute;
+		bottom: -5px;
+		left: 0;
+		width: 0;
+		height: 2px;
+		background: var(--color-accent);
+		transition: width 0.3s ease;
+	}
+
+	.nav-links a:not(.btn):hover::after {
+		width: 100%;
+	}
+
+	.nav-links a:not(.btn):hover {
+		color: var(--color-accent);
+	}
+
+	.btn-nav {
+		padding: 0.7rem 1.8rem;
+		font-size: 0.95rem;
+	}
+
+	.menu-toggle {
+		display: none;
+		flex-direction: column;
+		gap: 5px;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		padding: 5px;
+	}
+
+	.menu-toggle span {
+		width: 25px;
+		height: 3px;
+		background: var(--color-white);
+		border-radius: 3px;
+		transition: all 0.3s ease;
+	}
+
+	@media (max-width: 768px) {
+		.menu-toggle {
+			display: flex;
+		}
+
+		.nav-links {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			background: rgba(26, 11, 46, 0.98);
+			flex-direction: column;
+			padding: 2rem;
+			gap: 1.5rem;
+			transform: translateY(-100%);
+			opacity: 0;
+			pointer-events: none;
+			transition: all 0.3s ease;
+		}
+
+		.nav-links.active {
+			transform: translateY(0);
+			opacity: 1;
+			pointer-events: all;
+		}
+	}
+</style>
+
+<script>
+	const menuToggle = document.querySelector('.menu-toggle');
+	const navLinks = document.querySelector('.nav-links');
+
+	menuToggle?.addEventListener('click', () => {
+		navLinks?.classList.toggle('active');
+		menuToggle?.classList.toggle('active');
+	});
+
+	// Cerrar menú al hacer clic en un enlace
+	document.querySelectorAll('.nav-links a').forEach(link => {
+		link.addEventListener('click', () => {
+			navLinks?.classList.remove('active');
+			menuToggle?.classList.remove('active');
+		});
+	});
+</script>
+
+

@@ -1,0 +1,150 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Artemagia - Magia profesional para eventos" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	:root {
+		--color-primary: #6B46C1;
+		--color-secondary: #9333EA;
+		--color-accent: #D4AF37;
+		--color-dark: #1a0b2e;
+		--color-dark-alt: #2d1b4e;
+		--color-light: #f8f9fa;
+		--color-white: #ffffff;
+		--color-text: #333333;
+		--color-text-light: #666666;
+		
+		--font-heading: 'Playfair Display', serif;
+		--font-body: 'Poppins', sans-serif;
+		
+		--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+		--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+		--shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+		--shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		font-family: var(--font-body);
+		color: var(--color-text);
+		line-height: 1.6;
+		overflow-x: hidden;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--font-heading);
+		font-weight: 700;
+		line-height: 1.2;
+	}
+
+	section {
+		scroll-margin-top: 80px;
+	}
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 1rem 2.5rem;
+		font-size: 1rem;
+		font-weight: 600;
+		text-decoration: none;
+		border-radius: 50px;
+		transition: all 0.3s ease;
+		cursor: pointer;
+		border: none;
+		font-family: var(--font-body);
+	}
+
+	.btn-primary {
+		background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+		color: var(--color-white);
+		box-shadow: var(--shadow-md);
+	}
+
+	.btn-primary:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.btn-outline {
+		background: transparent;
+		color: var(--color-white);
+		border: 2px solid var(--color-white);
+	}
+
+	.btn-outline:hover {
+		background: var(--color-white);
+		color: var(--color-primary);
+	}
+
+	.section-title {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+		background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-align: center;
+	}
+
+	.section-subtitle {
+		font-size: 1.2rem;
+		color: var(--color-text-light);
+		text-align: center;
+		max-width: 700px;
+		margin: 0 auto 3rem;
+	}
+
+	@media (max-width: 768px) {
+		.section-title {
+			font-size: 2rem;
+		}
+
+		.section-subtitle {
+			font-size: 1rem;
+		}
+
+		.container {
+			padding: 0 1rem;
+		}
+	}
+</style>
+
+
