@@ -1,41 +1,5 @@
 ---
-const services = [
-	{
-		title: "Juegos Mecánicos",
-		description: "Juegos mecánicos en los que contamos con el toro mecánico y el reloj mecánico",
-		icon: "🎠"
-	},
-	{
-		title: "Juegos inflables",
-		description: "Contamos con tobogán, castillo y cuncuna inflable.",
-		icon: "🏰"
-	},
-	{
-		title: "Juegos de salón",
-		description: "Diversión garantizada para los más pequeños. Shows interactivos, coloridos y llenos de asombro adaptados a cada edad.",
-		icon: "🎪"
-	},
-	{
-		title: "Carritos",
-		description: "Para endulzar tu evento contamos con los servicios de palomitas de maíz y algodones de azúcar",
-		icon: "🍿"
-	},
-	{
-		title: "Juegos Stand",
-		description: "Juegos clásicos como martillo de fuerza, rana de bronce y juegos de ingenio",
-		icon: "🎯"
-	},
-	{
-		title: "Shows",
-		description: "Espectáculos y entretenimiento en vivo para hacer de tu evento una experiencia inolvidable.",
-		icon: "🎬"
-	},
-	{
-		title: "Recuerdos: Foto/Video",
-		description: "Contamos con los servicios de Tótem fotográfico y Video 360",
-		icon: "📷"
-	}
-];
+import { services } from '../data/services';
 ---
 
 <section id="servicios" class="services">
@@ -50,13 +14,18 @@ const services = [
 				<div class="service-card">
 					<div class="service-icon">{service.icon}</div>
 					<h3 class="service-title">{service.title}</h3>
-					<p class="service-description">{service.description}</p>
-					<a href="#contacto" class="service-link">
-						Solicitar información
-						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-							<path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-						</svg>
-					</a>
+					<p class="service-description">{service.shortDescription}</p>
+					<div class="service-actions">
+						<a href={`/servicios/${service.slug}`} class="btn btn-details">
+							Más detalles...
+						</a>
+						<a href="#contacto" class="service-link">
+							Solicitar información
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+								<path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+							</svg>
+						</a>
+					</div>
 				</div>
 			))}
 		</div>
@@ -86,7 +55,7 @@ const services = [
 
 	.services .section-title,
 	.services .section-subtitle {
-		color: var(--color-white);
+		color: var(--color-text-white);
 	}
 
 	.services .section-title {
@@ -131,7 +100,7 @@ const services = [
 
 	.service-title {
 		font-size: 1.5rem;
-		color: var(--color-white);
+		color: var(--color-text-white);
 		margin-bottom: 0.5rem;
 	}
 
@@ -139,16 +108,41 @@ const services = [
 		color: rgba(255, 255, 255, 0.8);
 		line-height: 1.7;
 		flex-grow: 1;
+		margin-bottom: 1rem;
+	}
+
+	.service-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	.btn-details {
+		background: transparent;
+		color: var(--color-text-white);
+		border: 2px solid var(--color-accent);
+		padding: 0.8rem 1.5rem;
+		font-size: 0.95rem;
+		text-align: center;
+		width: 100%;
+	}
+
+	.btn-details:hover {
+		background: var(--color-accent);
+		color: var(--color-dark);
+		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 	}
 
 	.service-link {
 		display: inline-flex;
 		align-items: center;
+		justify-content: center;
 		gap: 0.5rem;
 		color: var(--color-accent);
 		text-decoration: none;
 		font-weight: 600;
-		margin-top: 1rem;
 		transition: all 0.3s ease;
 	}
 

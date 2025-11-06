@@ -53,11 +53,14 @@
 		</div>
 
 		<div class="footer-bottom">
-			<p>&copy; {new Date().getFullYear()} Artemagia SpA. Todos los derechos reservados.</p>
-			<div class="footer-bottom-links">
-				<a href="#privacy">Política de Privacidad</a>
-				<span>•</span>
-				<a href="#terms">Términos y Condiciones</a>
+			<div class="footer-bottom-main">
+				<p>&copy; {new Date().getFullYear()} Artemagia - Todos los derechos reservados.</p>
+				<p class="footer-location">Puerto Montt, Región de Los Lagos, Chile</p>
+			</div>
+			<div class="footer-bottom-info">
+				<p class="footer-developer">
+					Sitio web desarrollado por <a href="https://codeblackchile.com" target="_blank" rel="noopener" class="developer-link">CodeBlack Chile</a>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -66,7 +69,7 @@
 <style>
 	.footer {
 		background: var(--color-dark);
-		color: var(--color-white);
+		color: var(--color-text-white);
 		padding: 4rem 0 2rem;
 	}
 
@@ -152,7 +155,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: var(--color-white);
+		color: var(--color-text-white);
 		transition: all 0.3s ease;
 	}
 
@@ -165,23 +168,69 @@
 	.footer-bottom {
 		padding-top: 2rem;
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 1rem;
+		flex-direction: column;
+		gap: 1.5rem;
 		color: rgba(255, 255, 255, 0.6);
+		text-align: center;
+		align-items: center;
+	}
+
+	.footer-bottom-main {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	.footer-location {
+		font-size: 0.9rem;
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	.footer-bottom-info {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-top: 1rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		align-items: center;
+		text-align: center;
+	}
+
+	.footer-credits {
+		font-size: 0.9rem;
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	.footer-developer {
+		font-size: 0.9rem;
+		color: rgba(255, 255, 255, 0.6);
+	}
+
+	.developer-link {
+		color: var(--color-accent);
+		text-decoration: none;
+		font-weight: 600;
+		transition: color 0.3s ease;
+	}
+
+	.developer-link:hover {
+		color: #FFD700;
+		text-decoration: underline;
 	}
 
 	.footer-bottom-links {
 		display: flex;
 		gap: 1rem;
 		align-items: center;
+		flex-wrap: wrap;
 	}
 
 	.footer-bottom-links a {
 		color: rgba(255, 255, 255, 0.6);
 		text-decoration: none;
 		transition: color 0.3s ease;
+		font-size: 0.9rem;
 	}
 
 	.footer-bottom-links a:hover {
@@ -205,12 +254,15 @@
 		}
 
 		.footer-bottom {
-			flex-direction: column;
+			text-align: center;
+		}
+
+		.footer-bottom-main,
+		.footer-bottom-info {
 			text-align: center;
 		}
 
 		.footer-bottom-links {
-			flex-wrap: wrap;
 			justify-content: center;
 		}
 	}
