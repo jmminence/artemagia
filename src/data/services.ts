@@ -70,9 +70,9 @@ export const services: Service[] = [
 	{
 		slug: "carritos",
 		title: "Carritos",
-		shortDescription: "Para endulzar tu evento contamos con los servicios de palomitas de maíz y algodones de azúcar",
+		shortDescription: "Para endulzar tu evento contamos con los servicios de palomitas de maíz, algodones de azúcar y helados soft",
 		icon: "🍿",
-		fullDescription: "Endulza tu evento con nuestros deliciosos carritos de comida. Ofrecemos palomitas de maíz recién hechas, algodones de azúcar artesanales y helados barquillo que harán las delicias de grandes y pequeños.",
+		fullDescription: "Endulza tu evento con nuestros deliciosos carritos de comida. Ofrecemos palomitas de maíz recién hechas, algodones de azúcar artesanales y helados soft que serán las delicias de grandes y pequeños.",
 		features: [
 			"Palomitas de maíz recién hechas",
 			"Algodones de azúcar artesanales",
