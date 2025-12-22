@@ -3,6 +3,7 @@ export interface Service {
 	title: string;
 	shortDescription: string;
 	icon: string;
+	image?: string; // Ruta a la imagen del servicio
 	fullDescription: string;
 	features: string[];
 	includes?: string[];
@@ -72,6 +73,7 @@ export const services: Service[] = [
 		title: "Carritos",
 		shortDescription: "Para endulzar tu evento contamos con los servicios de palomitas de maíz, algodones de azúcar y helados soft",
 		icon: "🍿",
+		image: "/images/carritos/carritos1.jpeg", // Imagen principal del servicio
 		fullDescription: "Endulza tu evento con nuestros deliciosos carritos de comida. Ofrecemos palomitas de maíz recién hechas, algodones de azúcar artesanales y helados soft que serán las delicias de grandes y pequeños.",
 		features: [
 			"Palomitas de maíz recién hechas",

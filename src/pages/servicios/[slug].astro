@@ -16,6 +16,89 @@ const { service } = Astro.props;
 if (!service) {
 	return Astro.redirect('/');
 }
+
+// Mapeo entre slugs de servicios y nombres de carpetas
+const serviceFolderMap: Record<string, string> = {
+	'carritos': 'carritos',
+	'juegos-mecanicos': 'juegosmecanicos',
+	'juegos-inflables': 'juegosinflables',
+	'juegos-de-salon': 'juegosdesalon',
+	'juegos-stand': 'shows', // Los stand están en shows
+	'shows': 'produccion',
+	'recuerdos-foto-video': 'recuerdosfotoyvideo'
+};
+
+// Función para obtener todas las imágenes de un servicio
+function getServiceImages(slug: string): string[] {
+	const folderName = serviceFolderMap[slug] || slug;
+	const images: string[] = [];
+	const extensions = ['jpeg', 'jpg', 'png', 'webp'];
+	
+	// Patrones de nombres según el servicio
+	if (slug === 'carritos') {
+		// carritos1, carritos2, etc.
+		for (let i = 1; i <= 50; i++) {
+			for (const ext of extensions) {
+				images.push(`/images/${folderName}/carritos${i}.${ext}`);
+			}
+		}
+	} else if (slug === 'juegos-mecanicos') {
+		// toro1, toro2, reloj1, reloj2, etc.
+		for (let i = 1; i <= 50; i++) {
+			for (const ext of extensions) {
+				images.push(`/images/${folderName}/toro${i}.${ext}`);
+				images.push(`/images/${folderName}/reloj${i}.${ext}`);
+			}
+		}
+	} else if (slug === 'juegos-inflables') {
+		// inflable1, inflable2, etc.
+		for (let i = 1; i <= 50; i++) {
+			for (const ext of extensions) {
+				images.push(`/images/${folderName}/inflable${i}.${ext}`);
+			}
+		}
+	} else if (slug === 'juegos-de-salon') {
+		// arcade1, hockey1, tacataca1, aro1, etc.
+		for (let i = 1; i <= 50; i++) {
+			for (const ext of extensions) {
+				images.push(`/images/${folderName}/arcade${i}.${ext}`);
+				images.push(`/images/${folderName}/hockey${i}.${ext}`);
+				images.push(`/images/${folderName}/tacataca${i}.${ext}`);
+				images.push(`/images/${folderName}/aro${i}.${ext}`);
+			}
+		}
+	} else if (slug === 'juegos-stand') {
+		// stand1, stand2, etc.
+		for (let i = 1; i <= 50; i++) {
+			for (const ext of extensions) {
+				images.push(`/images/${folderName}/stand${i}.${ext}`);
+			}
+		}
+	} else if (slug === 'shows') {
+		// produccion1, produccion2, etc.
+		for (let i = 1; i <= 50; i++) {
+			for (const ext of extensions) {
+				images.push(`/images/${folderName}/produccion${i}.${ext}`);
+			}
+		}
+	} else if (slug === 'recuerdos-foto-video') {
+		// totem1, totem2, giro1, giro2, etc.
+		for (let i = 1; i <= 50; i++) {
+			for (const ext of extensions) {
+				images.push(`/images/${folderName}/totem${i}.${ext}`);
+				images.push(`/images/${folderName}/giro${i}.${ext}`);
+			}
+		}
+	}
+	
+	return images;
+}
+
+// Obtener todas las imágenes del servicio
+const allImages = getServiceImages(service.slug);
+// La primera imagen es la portada, el resto van a la galería
+const coverImage = allImages[0] || null;
+const galleryImages = allImages.slice(1);
 ---
 
 <Layout title={`${service.title} - Artemagia`}>
@@ -80,6 +163,43 @@ if (!service) {
 							<p class="additional-info">{service.additionalInfo}</p>
 						</div>
 					)}
+
+					{(coverImage || galleryImages.length > 0) && (
+						<div class="service-section">
+							<h2 class="section-heading">Galería de Imágenes</h2>
+							
+							{/* Imagen de portada */}
+							{coverImage && (
+								<div class="cover-image-container">
+									<img 
+										src={coverImage} 
+										alt={`${service.title} - Portada`}
+										class="cover-image"
+										loading="eager"
+										data-image-index="0"
+										onerror="this.parentElement.style.display='none'"
+									/>
+								</div>
+							)}
+
+							{/* Galería de imágenes */}
+							{galleryImages.length > 0 && (
+								<div class="image-gallery" id="image-gallery">
+									{galleryImages.map((imagePath, index) => (
+										<div class="gallery-item" data-image-index={index + 1}>
+											<img 
+												src={imagePath} 
+												alt={`${service.title} - Imagen ${index + 2}`}
+												class="gallery-image"
+												loading="lazy"
+												onerror="this.parentElement.style.display='none'"
+											/>
+										</div>
+									))}
+								</div>
+							)}
+						</div>
+					)}
 				</div>
 
 				<div class="service-detail-sidebar">
@@ -99,7 +219,194 @@ if (!service) {
 	</section>
 
 	<Footer />
+
+	<!-- Modal para ver imágenes en tamaño completo -->
+	{(coverImage || galleryImages.length > 0) && (
+		<div class="image-modal" id="image-modal">
+			<button class="modal-close" id="modal-close" aria-label="Cerrar">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+				</svg>
+			</button>
+			<button class="modal-nav modal-prev" id="modal-prev" aria-label="Anterior">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</button>
+			<button class="modal-nav modal-next" id="modal-next" aria-label="Siguiente">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</button>
+			<div class="modal-content">
+				<img id="modal-image" src="" alt="" class="modal-image-full" />
+			</div>
+		</div>
+	)}
 </Layout>
+
+<script>
+	// Funcionalidad del modal de imágenes
+	const coverImage = document.querySelector('.cover-image');
+	const gallery = document.getElementById('image-gallery');
+	const modal = document.getElementById('image-modal');
+	const modalImage = document.getElementById('modal-image') as HTMLImageElement | null;
+	const modalClose = document.getElementById('modal-close');
+	const modalPrev = document.getElementById('modal-prev');
+	const modalNext = document.getElementById('modal-next');
+	
+	if (modal && modalImage && modalClose && modalPrev && modalNext) {
+		let currentImageIndex = 0;
+		let allImages: string[] = [];
+		
+		// Función para obtener todas las imágenes visibles
+		function getAllVisibleImages(): string[] {
+			const images: string[] = [];
+			
+			// Agregar imagen de portada si existe y es visible
+			if (coverImage && (coverImage as HTMLImageElement).complete && (coverImage as HTMLImageElement).naturalWidth > 0) {
+				const src = coverImage.getAttribute('src');
+				if (src) images.push(src);
+			}
+			
+			// Agregar imágenes de la galería que se cargaron correctamente
+			if (gallery) {
+				const galleryItems = gallery.querySelectorAll('.gallery-item:not([style*="display: none"]) img');
+				galleryItems.forEach((element) => {
+					const img = element as HTMLImageElement;
+					if (img.complete && img.naturalWidth > 0) {
+						const src = img.getAttribute('src');
+						if (src) images.push(src);
+					}
+				});
+			}
+			
+			return images;
+		}
+		
+		// Actualizar lista de imágenes
+		function updateImagesList() {
+			allImages = getAllVisibleImages();
+		}
+		
+		// Esperar a que las imágenes se carguen
+		setTimeout(() => {
+			updateImagesList();
+			
+			// Agregar event listeners a la imagen de portada
+			if (coverImage) {
+				coverImage.addEventListener('click', () => {
+					currentImageIndex = 0;
+					openModal();
+				});
+				(coverImage as HTMLImageElement).style.cursor = 'pointer';
+			}
+			
+			// Agregar event listeners a las imágenes de la galería
+			if (gallery) {
+				const galleryItems = gallery.querySelectorAll('.gallery-item img');
+				galleryItems.forEach((element) => {
+					const img = element as HTMLImageElement;
+					img.addEventListener('click', () => {
+						// Encontrar el índice real en allImages
+						const imgSrc = img.getAttribute('src');
+						if (imgSrc) {
+							currentImageIndex = allImages.indexOf(imgSrc);
+							if (currentImageIndex === -1) currentImageIndex = 0;
+							openModal();
+						}
+					});
+					img.style.cursor = 'pointer';
+				});
+			}
+		}, 500);
+		
+		// También actualizar cuando las imágenes se carguen
+		if (coverImage) {
+			coverImage.addEventListener('load', updateImagesList);
+			coverImage.addEventListener('error', () => setTimeout(updateImagesList, 100));
+		}
+		
+		if (gallery) {
+			gallery.querySelectorAll('img').forEach(element => {
+				const img = element as HTMLImageElement;
+				img.addEventListener('load', updateImagesList);
+				img.addEventListener('error', () => setTimeout(updateImagesList, 100));
+			});
+		}
+
+		// Cerrar modal
+		modalClose.addEventListener('click', closeModal);
+		modal.addEventListener('click', (e) => {
+			if (e.target === modal) {
+				closeModal();
+			}
+		});
+
+		// Navegación
+		modalPrev.addEventListener('click', (e) => {
+			e.stopPropagation();
+			showPreviousImage();
+		});
+
+		modalNext.addEventListener('click', (e) => {
+			e.stopPropagation();
+			showNextImage();
+		});
+
+		// Navegación con teclado
+		document.addEventListener('keydown', (e) => {
+			if (modal && modal.classList.contains('active')) {
+				if (e.key === 'Escape') {
+					closeModal();
+				} else if (e.key === 'ArrowLeft') {
+					showPreviousImage();
+				} else if (e.key === 'ArrowRight') {
+					showNextImage();
+				}
+			}
+		});
+
+		function openModal() {
+			if (modal && allImages.length > 0) {
+				updateImagesList();
+				modal.classList.add('active');
+				document.body.style.overflow = 'hidden';
+				updateModalImage();
+			}
+		}
+
+		function closeModal() {
+			if (modal) {
+				modal.classList.remove('active');
+				document.body.style.overflow = '';
+			}
+		}
+
+		function updateModalImage() {
+			if (allImages.length > 0 && currentImageIndex >= 0 && currentImageIndex < allImages.length) {
+				if (modalImage) {
+					modalImage.src = allImages[currentImageIndex];
+					modalImage.alt = `Imagen ${currentImageIndex + 1}`;
+				}
+			}
+		}
+
+		function showPreviousImage() {
+			if (allImages.length > 0) {
+				currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+				updateModalImage();
+			}
+		}
+
+		function showNextImage() {
+			if (allImages.length > 0) {
+				currentImageIndex = (currentImageIndex + 1) % allImages.length;
+				updateModalImage();
+			}
+		}
+	}
+</script>
 
 <style>
 	.service-detail {
@@ -341,9 +648,228 @@ if (!service) {
 			padding: 1.5rem;
 		}
 
-		.section-heading {
-			font-size: 1.5rem;
-		}
+	.section-heading {
+		font-size: 1.5rem;
 	}
+}
+
+/* Estilos para la galería de imágenes */
+.cover-image-container {
+	margin-top: 1.5rem;
+	margin-bottom: 2rem;
+	width: 100%;
+	border-radius: 20px;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.03);
+	border: 2px solid rgba(255, 255, 255, 0.1);
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+.cover-image-container:hover {
+	transform: translateY(-5px);
+	border-color: var(--color-accent);
+	box-shadow: 0 20px 50px rgba(212, 175, 55, 0.4);
+}
+
+.cover-image {
+	width: 100%;
+	height: auto;
+	display: block;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+}
+
+.cover-image-container:hover .cover-image {
+	transform: scale(1.02);
+}
+
+.image-gallery {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+.gallery-item {
+	position: relative;
+	overflow: hidden;
+	border-radius: 15px;
+	aspect-ratio: 4/3;
+	background: rgba(255, 255, 255, 0.03);
+	border: 2px solid rgba(255, 255, 255, 0.1);
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+.gallery-item:hover {
+	transform: translateY(-8px) scale(1.02);
+	border-color: var(--color-accent);
+	box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+}
+
+.gallery-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-image {
+	transform: scale(1.05);
+}
+
+/* Modal para ver imágenes en tamaño completo */
+.image-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.95);
+	backdrop-filter: blur(10px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10000;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+}
+
+.image-modal.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+.modal-content {
+	position: relative;
+	max-width: 90vw;
+	max-height: 90vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-image-full {
+	max-width: 100%;
+	max-height: 90vh;
+	object-fit: contain;
+	border-radius: 10px;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close {
+	position: absolute;
+	top: 2rem;
+	right: 2rem;
+	background: rgba(255, 255, 255, 0.1);
+	border: 2px solid rgba(255, 255, 255, 0.2);
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: var(--color-text-white);
+	transition: all 0.3s ease;
+	z-index: 10001;
+}
+
+.modal-close:hover {
+	background: rgba(255, 255, 255, 0.2);
+	border-color: var(--color-accent);
+	transform: rotate(90deg);
+}
+
+.modal-nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(255, 255, 255, 0.1);
+	border: 2px solid rgba(255, 255, 255, 0.2);
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: var(--color-text-white);
+	transition: all 0.3s ease;
+	z-index: 10001;
+}
+
+.modal-nav:hover {
+	background: rgba(255, 255, 255, 0.2);
+	border-color: var(--color-accent);
+	transform: translateY(-50%) scale(1.1);
+}
+
+.modal-prev {
+	left: 2rem;
+}
+
+.modal-next {
+	right: 2rem;
+}
+
+@media (min-width: 1200px) {
+	.image-gallery {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (min-width: 968px) and (max-width: 1199px) {
+	.image-gallery {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (min-width: 640px) and (max-width: 967px) {
+	.image-gallery {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 640px) {
+	.cover-image-container {
+		border-radius: 15px;
+	}
+
+	.image-gallery {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+	}
+
+	.gallery-item {
+		border-radius: 10px;
+	}
+
+	.modal-close {
+		top: 1rem;
+		right: 1rem;
+		width: 40px;
+		height: 40px;
+	}
+
+	.modal-nav {
+		width: 40px;
+		height: 40px;
+	}
+
+	.modal-prev {
+		left: 1rem;
+	}
+
+	.modal-next {
+		right: 1rem;
+	}
+
+	.modal-image-full {
+		max-height: 85vh;
+	}
+}
 </style>
 
