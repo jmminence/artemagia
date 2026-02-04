@@ -1,4 +1,5 @@
 ---
+const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 ---
 
 <section id="contacto" class="contact">
@@ -61,7 +62,12 @@
 				</div>
 			</div>
 
-			<form class="contact-form">
+			<form class="contact-form" id="contact-form">
+				<!-- Anti-spam: campo oculto que no debe rellenarse -->
+				<input type="checkbox" name="botcheck" class="hidden" style="display: none" tabindex="-1" autocomplete="off">
+
+				<div class="form-group form-status" id="form-status" aria-live="polite" hidden></div>
+
 				<div class="form-group">
 					<label for="name">Nombre completo</label>
 					<input type="text" id="name" name="name" required placeholder="Tu nombre">
@@ -96,9 +102,9 @@
 					<textarea id="message" name="message" rows="5" required placeholder="Cuéntanos sobre tu evento, fecha aproximada y cualquier detalle relevante..."></textarea>
 				</div>
 
-				<button type="submit" class="btn btn-primary">
-					Enviar mensaje
-					<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+				<button type="submit" class="btn btn-primary" id="submit-btn">
+					<span class="btn-text">Enviar mensaje</span>
+					<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
 						<path d="M18 2L9 11M18 2L12 18L9 11M18 2L2 8L9 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 					</svg>
 				</button>
@@ -209,6 +215,29 @@
 		margin-bottom: 1.5rem;
 	}
 
+	.form-status {
+		margin-bottom: 1rem;
+		padding: 1rem;
+		border-radius: 10px;
+		font-weight: 500;
+	}
+
+	.form-status[hidden] {
+		display: none;
+	}
+
+	.form-status--success {
+		background: #d4edda;
+		color: #155724;
+		border: 1px solid #c3e6cb;
+	}
+
+	.form-status--error {
+		background: #f8d7da;
+		color: #721c24;
+		border: 1px solid #f5c6cb;
+	}
+
 	.form-row {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -279,13 +308,66 @@
 	}
 </style>
 
-<script>
-	const form = document.querySelector('.contact-form');
-	
-	form?.addEventListener('submit', (e) => {
+<script define:vars={{ accessKey: web3formsAccessKey }}>
+	const form = document.getElementById('contact-form');
+	const statusEl = document.getElementById('form-status');
+	const submitBtn = document.getElementById('submit-btn');
+	const btnText = submitBtn?.querySelector('.btn-text');
+
+	function setStatus(message, type) {
+		if (!statusEl) return;
+		statusEl.textContent = message;
+		statusEl.className = 'form-group form-status form-status--' + type;
+		statusEl.hidden = !message;
+	}
+
+	form?.addEventListener('submit', async (e) => {
 		e.preventDefault();
-		alert('¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.');
-		form.reset();
+		if (!accessKey) {
+			setStatus('Error: falta configurar la clave de Web3Forms. Revisa el archivo .env', 'error');
+			return;
+		}
+
+		const formData = new FormData(form);
+		// Anti-spam: si botcheck está marcado, es un bot
+		if (formData.get('botcheck')) {
+			setStatus('', '');
+			return;
+		}
+
+		submitBtn?.setAttribute('disabled', '');
+		if (btnText) btnText.textContent = 'Enviando...';
+		setStatus('', '');
+
+		try {
+			const res = await fetch('https://api.web3forms.com/submit', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					access_key: accessKey,
+					name: formData.get('name'),
+					email: formData.get('email'),
+					phone: formData.get('phone') || '',
+					message: formData.get('message'),
+					'Tipo de evento': formData.get('event-type'),
+					subject: 'Nuevo mensaje desde artemagia.cl - Contacto',
+				}),
+			});
+
+			const data = await res.json();
+
+			if (data.success) {
+				setStatus('¡Mensaje enviado! Te responderemos a la brevedad.', 'success');
+				form.reset();
+			} else {
+				setStatus('No se pudo enviar. Intenta de nuevo o escribe a contacto@artemagia.cl', 'error');
+			}
+		} catch {
+			setStatus('Error de conexión. Intenta de nuevo o escribe a contacto@artemagia.cl', 'error');
+		} finally {
+			submitBtn?.removeAttribute('disabled');
+			if (btnText) btnText.textContent = 'Enviar mensaje';
+		}
 	});
 </script>
 
