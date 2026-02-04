@@ -1,0 +1,124 @@
+---
+---
+
+<section id="nosotros" class="about">
+	<div class="container">
+		<h2 class="section-title">Sobre nosotros</h2>
+		<p class="section-subtitle">
+			Magia profesional con pasión y experiencia
+		</p>
+
+		<div class="about-content">
+			<div class="about-text">
+				<p class="about-intro">
+					En <strong>Artemagia</strong> creemos que cada evento merece un toque de asombro. 
+					Somos magos profesionales con más de una década llevando ilusión, elegancia y diversión 
+					a bodas, eventos corporativos, fiestas infantiles y celebraciones en Puerto Montt y toda la región.
+				</p>
+				<p>
+					Nuestro objetivo es simple: que tú y tus invitados vivan momentos inolvidables. 
+					Adaptamos cada show a tu tipo de evento, audiencia y presupuesto, con un trato cercano 
+					y un compromiso total con la calidad.
+				</p>
+				<div class="about-cta">
+					<a href="#contacto" class="btn btn-primary">Contáctanos</a>
+				</div>
+			</div>
+			<div class="about-highlights">
+				<div class="highlight-item">
+					<span class="highlight-number">+10</span>
+					<span class="highlight-label">años de experiencia</span>
+				</div>
+				<div class="highlight-item">
+					<span class="highlight-number">500+</span>
+					<span class="highlight-label">eventos realizados</span>
+				</div>
+				<div class="highlight-item">
+					<span class="highlight-number">100%</span>
+					<span class="highlight-label">dedicación</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.about {
+		padding: 6rem 0;
+		background: var(--color-light);
+	}
+
+	.about-content {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+		align-items: center;
+		margin-top: 3rem;
+	}
+
+	.about-text {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.about-intro {
+		font-size: 1.15rem;
+		line-height: 1.8;
+		color: var(--color-text);
+	}
+
+	.about-text p {
+		color: var(--color-text-light);
+		line-height: 1.8;
+	}
+
+	.about-text strong {
+		color: var(--color-primary);
+	}
+
+	.about-cta {
+		margin-top: 0.5rem;
+	}
+
+	.about-highlights {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.highlight-item {
+		display: flex;
+		align-items: baseline;
+		gap: 1rem;
+		padding: 1.5rem;
+		background: var(--color-white);
+		border-radius: 12px;
+		box-shadow: var(--shadow-md);
+		border-left: 4px solid var(--color-primary);
+	}
+
+	.highlight-number {
+		font-family: var(--font-heading);
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--color-primary);
+		line-height: 1;
+	}
+
+	.highlight-label {
+		color: var(--color-text-light);
+		font-size: 1rem;
+	}
+
+	@media (max-width: 968px) {
+		.about-content {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+
+		.about-highlights {
+			order: -1;
+		}
+	}
+</style>
