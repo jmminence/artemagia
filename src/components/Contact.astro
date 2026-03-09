@@ -1,5 +1,6 @@
 ---
-// La clave se inyecta vía Vite define en astro.config.mjs (__WEB3FORMS_ACCESS_KEY__)
+// Clave desde .env (también inyectada por Vite como __WEB3FORMS_ACCESS_KEY__ en el script)
+const web3formsKey = (import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '').toString().trim();
 ---
 
 <section id="contacto" class="contact">
@@ -62,7 +63,7 @@
 				</div>
 			</div>
 
-			<form class="contact-form" id="contact-form">
+			<form class="contact-form" id="contact-form" data-web3forms-key={web3formsKey}>
 				<!-- Anti-spam: campo oculto que no debe rellenarse -->
 				<input type="checkbox" name="botcheck" class="hidden" style="display: none" tabindex="-1" autocomplete="off">
 
@@ -309,10 +310,9 @@
 </style>
 
 <script>
-	// Clave inyectada en build por Vite (astro.config.mjs)
-	const accessKey = typeof __WEB3FORMS_ACCESS_KEY__ !== 'undefined' ? __WEB3FORMS_ACCESS_KEY__ : '';
-
 	const form = document.getElementById('contact-form');
+	// Clave: inyectada por Vite o desde data-attribute del form (server)
+	const accessKey = (typeof __WEB3FORMS_ACCESS_KEY__ !== 'undefined' ? __WEB3FORMS_ACCESS_KEY__ : '') || (form?.getAttribute('data-web3forms-key') || '').trim();
 	const statusEl = document.getElementById('form-status');
 	const submitBtn = document.getElementById('submit-btn');
 	const btnText = submitBtn?.querySelector('.btn-text');
