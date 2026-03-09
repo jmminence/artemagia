@@ -1,5 +1,5 @@
 ---
-const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
+// La clave se inyecta vía Vite define en astro.config.mjs (__WEB3FORMS_ACCESS_KEY__)
 ---
 
 <section id="contacto" class="contact">
@@ -308,7 +308,10 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 	}
 </style>
 
-<script define:vars={{ accessKey: web3formsAccessKey }}>
+<script>
+	// Clave inyectada en build por Vite (astro.config.mjs)
+	const accessKey = typeof __WEB3FORMS_ACCESS_KEY__ !== 'undefined' ? __WEB3FORMS_ACCESS_KEY__ : '';
+
 	const form = document.getElementById('contact-form');
 	const statusEl = document.getElementById('form-status');
 	const submitBtn = document.getElementById('submit-btn');

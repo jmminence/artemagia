@@ -12,10 +12,8 @@ export default defineConfig({
   },
   vite: {
     define: {
-      // Asegura que la clave Web3Forms esté disponible en el cliente
-      'import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY': JSON.stringify(
-        env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? ''
-      ),
+      // Inyectar clave en el script del cliente (evita que falle import.meta.env en Astro)
+      __WEB3FORMS_ACCESS_KEY__: JSON.stringify(env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? ''),
     },
   },
 });
