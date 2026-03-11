@@ -1,7 +1,6 @@
 ---
 import { services } from '../data/services';
 
-// Mapeo entre slugs de servicios y nombres de carpetas
 const serviceFolderMap: Record<string, string> = {
 	'carritos': 'carritos',
 	'juegos-mecanicos': 'juegosmecanicos',
@@ -12,291 +11,374 @@ const serviceFolderMap: Record<string, string> = {
 	'recuerdos-foto-video': 'recuerdosfotoyvideo'
 };
 
-// Función para obtener la primera imagen de un servicio
 function getFirstServiceImage(slug: string): string | null {
 	const folderName = serviceFolderMap[slug] || slug;
-	const extensions = ['jpeg', 'jpg', 'png', 'webp'];
-	
-	// Patrones de nombres según el servicio - retornamos la primera opción
-	// El navegador probará si existe y si no, se mostrará el icono
-	if (slug === 'carritos') {
-		return `/images/${folderName}/carritos1.jpeg`;
-	} else if (slug === 'juegos-mecanicos') {
-		// Priorizamos toro1, si no existe el navegador mostrará el icono
-		return `/images/${folderName}/toro1.jpg`;
-	} else if (slug === 'juegos-inflables') {
-		return `/images/${folderName}/inflable1.jpeg`;
-	} else if (slug === 'juegos-de-salon') {
-		// Priorizamos arcade1
-		return `/images/${folderName}/arcade1.jpeg`;
-	} else if (slug === 'juegos-stand') {
-		return `/images/${folderName}/stand1.jpeg`;
-	} else if (slug === 'shows') {
-		return `/images/${folderName}/produccion1.jpeg`;
-	} else if (slug === 'recuerdos-foto-video') {
-		// Priorizamos totem1
-		return `/images/${folderName}/totem1.jpeg`;
-	}
-	
+	if (slug === 'carritos') return `/images/${folderName}/carritos1.jpeg`;
+	if (slug === 'juegos-mecanicos') return `/images/${folderName}/toro1.jpg`;
+	if (slug === 'juegos-inflables') return `/images/${folderName}/inflable1.jpeg`;
+	if (slug === 'juegos-de-salon') return `/images/${folderName}/arcade1.jpeg`;
+	if (slug === 'juegos-stand') return `/images/${folderName}/stand1.jpeg`;
+	if (slug === 'shows') return `/images/${folderName}/produccion1.jpeg`;
+	if (slug === 'recuerdos-foto-video') return `/images/${folderName}/totem1.jpeg`;
 	return null;
 }
 
-// Agregar la primera imagen a cada servicio si no tiene una definida
 const servicesWithImages = services.map(service => ({
 	...service,
 	image: service.image || getFirstServiceImage(service.slug) || null
 }));
+
+const row1 = servicesWithImages.slice(0, 4);
+const row2 = servicesWithImages.slice(4);
 ---
 
-<section id="servicios" class="services">
-	<div class="container">
-		<h2 class="section-title">Nuestros Servicios</h2>
-		<p class="section-subtitle">
-			Múltiples servicios para tu evento!
-		</p>
+<section id="servicios" class="s-services">
+	<div class="s-services__inner">
+		<header class="s-services__header">
+			<span class="s-services__label">Qué ofrecemos</span>
+			<h2 class="s-services__title">Nuestros Servicios</h2>
+			<p class="s-services__subtitle">Múltiples servicios para tu evento</p>
+		</header>
 
-		<div class="services-grid">
-			{servicesWithImages.map((service, index) => (
-				<div class={`service-card ${index >= 4 ? 'second-row' : ''}`}>
-					<div class="service-image-container">
-						{service.image ? (
-							<img 
-								src={service.image} 
-								alt={service.title}
-								class="service-image"
-								loading="lazy"
-								onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-							/>
-						) : null}
-						<div class="service-icon" style={service.image ? "display: none;" : "display: flex;"}>
-							{service.icon}
-						</div>
-					</div>
-					<h3 class="service-title">{service.title}</h3>
-					<p class="service-description">{service.shortDescription}</p>
-					<div class="service-actions">
-						<a href={`/servicios/${service.slug}`} class="btn btn-details">
-							Más detalles...
+		<div class="s-services__grid">
+			<div class="s-services__row">
+				{row1.map((service) => (
+					<article class="s-card">
+						<a href={`/servicios/${service.slug}`} class="s-card__link">
+							<div class="s-card__media">
+								{service.image ? (
+									<img
+										src={service.image}
+										alt={service.title}
+										loading="lazy"
+										onerror="this.style.display='none'; this.nextElementSibling?.classList.add('is-visible');"
+									/>
+								) : null}
+								<div class={`s-card__placeholder ${!service.image ? 'is-visible' : ''}`}>
+									{service.icon}
+								</div>
+							</div>
+							<div class="s-card__body">
+								<h3 class="s-card__title">{service.title}</h3>
+								<p class="s-card__text">{service.shortDescription}</p>
+								<span class="s-card__cta">
+									Más detalles
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+										<path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>
+								</span>
+							</div>
 						</a>
-						<a href="#contacto" class="service-link">
-							Solicitar información
-							<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-								<path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-							</svg>
+						<a href="#contacto" class="s-card__contact">Solicitar información</a>
+					</article>
+				))}
+			</div>
+			<div class="s-services__row s-services__row--last">
+				{row2.map((service) => (
+					<article class="s-card">
+						<a href={`/servicios/${service.slug}`} class="s-card__link">
+							<div class="s-card__media">
+								{service.image ? (
+									<img
+										src={service.image}
+										alt={service.title}
+										loading="lazy"
+										onerror="this.style.display='none'; this.nextElementSibling?.classList.add('is-visible');"
+									/>
+								) : null}
+								<div class={`s-card__placeholder ${!service.image ? 'is-visible' : ''}`}>
+									{service.icon}
+								</div>
+							</div>
+							<div class="s-card__body">
+								<h3 class="s-card__title">{service.title}</h3>
+								<p class="s-card__text">{service.shortDescription}</p>
+								<span class="s-card__cta">
+									Más detalles
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+										<path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>
+								</span>
+							</div>
 						</a>
-					</div>
-				</div>
-			))}
+						<a href="#contacto" class="s-card__contact">Solicitar información</a>
+					</article>
+				))}
+			</div>
 		</div>
 	</div>
 </section>
 
 <style>
-	.services {
-		padding: 6rem 0;
+	.s-services {
+		--s-gap: 1.25rem;
+		--s-card-radius: 20px;
+		--s-card-max: 280px;
+		padding: clamp(3rem, 8vw, 5rem) 0;
 		background: var(--color-dark);
 		position: relative;
 		overflow: hidden;
 	}
 
-	.services::before {
+	.s-services::before {
 		content: '';
 		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 100%;
-		background: 
-			radial-gradient(circle at 20% 30%, rgba(107, 70, 193, 0.1) 0%, transparent 50%),
-			radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.1) 0%, transparent 50%);
+		inset: 0;
+		background:
+			radial-gradient(ellipse 100% 60% at 50% 0%, rgba(107, 70, 193, 0.15) 0%, transparent 50%),
+			radial-gradient(ellipse 80% 40% at 100% 100%, rgba(147, 51, 234, 0.08) 0%, transparent 50%);
 		pointer-events: none;
 	}
 
-	.services .section-title,
-	.services .section-subtitle {
-		color: var(--color-text-white);
-	}
-
-	.services .section-title {
-		background: linear-gradient(135deg, var(--color-accent), #FFD700);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
-	.services .container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.services-grid {
-		display: grid;
-		grid-template-columns: repeat(7, minmax(250px, 1fr));
-		gap: 1.5rem;
-		margin-top: 3rem;
+	.s-services__inner {
 		position: relative;
 		z-index: 1;
-		width: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		justify-content: center;
+		max-width: 1280px;
+		margin: 0 auto;
+		padding: 0 clamp(1rem, 4vw, 2rem);
 	}
 
-	.service-card {
-		background: rgba(255, 255, 255, 0.05);
-		backdrop-filter: blur(10px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		border-radius: 20px;
-		padding: 2.5rem;
-		transition: all 0.3s ease;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		width: 100%;
-		box-sizing: border-box;
-		min-width: 250px;
+	.s-services__header {
+		text-align: center;
+		margin-bottom: clamp(2rem, 5vw, 3rem);
 	}
 
-
-	.service-card:hover {
-		transform: translateY(-10px);
-		background: rgba(255, 255, 255, 0.08);
-		border-color: var(--color-accent);
-		box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
-	}
-
-	.service-image-container {
-		width: 100%;
-		height: 180px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-bottom: 1rem;
-		border-radius: 15px;
-		overflow: hidden;
-		background: rgba(255, 255, 255, 0.03);
-		flex-shrink: 0;
-	}
-
-	.service-image {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.3s ease;
-	}
-
-	.service-card:hover .service-image {
-		transform: scale(1.05);
-	}
-
-	.service-icon {
-		font-size: 3rem;
-		margin-bottom: 0.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-	}
-
-	.service-title {
-		font-family: var(--font-heading);
-		font-size: 1.5rem;
+	.s-services__label {
+		display: inline-block;
+		font-family: var(--font-body);
+		font-size: 0.75rem;
 		font-weight: 600;
-		color: var(--color-text-white);
+		text-transform: uppercase;
+		letter-spacing: 0.2em;
+		color: var(--color-accent);
 		margin-bottom: 0.5rem;
-		line-height: 1.3;
+	}
+
+	.s-services__title {
+		font-family: var(--font-heading);
+		font-size: clamp(2rem, 5vw, 2.75rem);
+		font-weight: 600;
+		color: #fff;
+		line-height: 1.2;
+		margin: 0 0 0.5rem;
 		letter-spacing: 0.02em;
 	}
 
-	.service-description {
+	.s-services__subtitle {
 		font-family: var(--font-body);
-		color: rgba(255, 255, 255, 0.85);
-		line-height: 1.7;
-		flex-grow: 1;
-		margin-bottom: 1rem;
-		font-size: 1rem;
-		letter-spacing: 0.01em;
+		font-size: clamp(1rem, 2vw, 1.125rem);
+		color: rgba(255, 255, 255, 0.7);
+		margin: 0;
 	}
 
-	.service-actions {
+	.s-services__grid {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
-		margin-top: 1rem;
+		align-items: center;
+		gap: var(--s-gap);
 	}
 
-	.btn-details {
-		background: transparent;
-		color: var(--color-text-white);
-		border: 2px solid var(--color-accent);
-		padding: 0.8rem 1.5rem;
-		font-size: 0.95rem;
-		text-align: center;
+	.s-services__row {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--s-gap);
 		width: 100%;
 	}
 
-	.btn-details:hover {
-		background: var(--color-accent);
-		color: var(--color-dark);
-		transform: translateY(-2px);
-		box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+	.s-services__row--last {
+		justify-content: center;
 	}
 
-	.service-link {
-		display: inline-flex;
+	/* Card */
+	.s-card {
+		width: 100%;
+		max-width: var(--s-card-max);
+		flex: 0 0 auto;
+		background: rgba(255, 255, 255, 0.03);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		border-radius: var(--s-card-radius);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+	}
+
+	.s-card:hover {
+		transform: translateY(-8px);
+		border-color: rgba(212, 175, 55, 0.25);
+		box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(212, 175, 55, 0.08);
+	}
+
+	.s-card__link {
+		text-decoration: none;
+		color: inherit;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		min-height: 0;
+	}
+
+	.s-card__media {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		background: rgba(0, 0, 0, 0.3);
+	}
+
+	.s-card__media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	.s-card:hover .s-card__media img {
+		transform: scale(1.08);
+	}
+
+	.s-card__placeholder {
+		position: absolute;
+		inset: 0;
+		display: none;
 		align-items: center;
 		justify-content: center;
-		gap: 0.5rem;
-		color: var(--color-accent);
-		text-decoration: none;
+		font-size: 3rem;
+		color: rgba(255, 255, 255, 0.35);
+	}
+
+	.s-card__placeholder.is-visible {
+		display: flex !important;
+	}
+
+	.s-card__body {
+		padding: 1.25rem 1.25rem 1rem;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		min-height: 0;
+	}
+
+	.s-card__title {
+		font-family: var(--font-heading);
+		font-size: 1.25rem;
 		font-weight: 600;
-		transition: all 0.3s ease;
+		color: #fff;
+		line-height: 1.3;
+		margin: 0 0 0.5rem;
+		letter-spacing: 0.01em;
 	}
 
-	.service-link:hover {
-		gap: 1rem;
+	.s-card__text {
+		font-family: var(--font-body);
+		font-size: 0.875rem;
+		color: rgba(255, 255, 255, 0.72);
+		line-height: 1.55;
+		margin: 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		flex: 1;
 	}
 
-	.service-link svg {
-		transition: transform 0.3s ease;
+	.s-card__cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: 1rem;
+		font-family: var(--font-body);
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		transition: gap 0.2s ease, color 0.2s ease;
 	}
 
-	.service-link:hover svg {
-		transform: translateX(5px);
+	.s-card__link:hover .s-card__cta {
+		gap: 0.75rem;
+		color: #e8c547;
 	}
 
-	@media (max-width: 2000px) {
-		.services-grid {
-			grid-template-columns: repeat(7, minmax(220px, 1fr));
-			padding: 0 1.5rem;
+	.s-card__cta svg {
+		flex-shrink: 0;
+		transition: transform 0.2s ease;
+	}
+
+	.s-card__link:hover .s-card__cta svg {
+		transform: translateX(4px);
+	}
+
+	.s-card__contact {
+		display: block;
+		text-align: center;
+		padding: 0.75rem 1rem;
+		margin: 0 1.25rem 1.25rem;
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		font-weight: 500;
+		color: rgba(255, 255, 255, 0.8);
+		text-decoration: none;
+		background: rgba(255, 255, 255, 0.06);
+		border-radius: 12px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+	}
+
+	.s-card__contact:hover {
+		background: rgba(255, 255, 255, 0.1);
+		border-color: rgba(212, 175, 55, 0.2);
+		color: #fff;
+	}
+
+	/* Responsive: 1 col móvil */
+	@media (max-width: 479px) {
+		.s-services {
+			--s-gap: 1rem;
+			--s-card-max: 100%;
+		}
+
+		.s-card {
+			max-width: 320px;
+			margin: 0 auto;
 		}
 	}
 
-	@media (max-width: 1400px) {
-		.services-grid {
-			grid-template-columns: repeat(4, 1fr);
+	/* 2 columnas */
+	@media (min-width: 480px) and (max-width: 767px) {
+		.s-services {
+			--s-card-max: calc(50% - var(--s-gap) / 2);
+		}
+
+		.s-card {
+			flex: 0 0 calc(50% - var(--s-gap) / 2);
+			max-width: 320px;
 		}
 	}
 
-	@media (max-width: 1200px) {
-		.services-grid {
-			grid-template-columns: repeat(3, 1fr);
+	/* 3 columnas */
+	@media (min-width: 768px) and (max-width: 1023px) {
+		.s-services {
+			--s-card-max: calc((100% - var(--s-gap) * 2) / 3);
+		}
+
+		.s-card {
+			flex: 0 0 calc((100% - var(--s-gap) * 2) / 3);
+			max-width: 280px;
 		}
 	}
 
-	@media (max-width: 968px) {
-		.services-grid {
-			grid-template-columns: repeat(2, 1fr);
+	/* 4 columnas: fila 1 con 4, fila 2 con 3 centradas */
+	@media (min-width: 1024px) {
+		.s-services__row {
+			max-width: 1200px;
+			margin: 0 auto;
 		}
-	}
 
-	@media (max-width: 768px) {
-		.services-grid {
-			grid-template-columns: 1fr;
+		.s-card {
+			width: 280px;
+			max-width: 280px;
+			flex: 0 0 280px;
 		}
 	}
 </style>
-
-
