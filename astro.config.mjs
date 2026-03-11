@@ -30,5 +30,14 @@ export default defineConfig({
       // Inyectar clave en el script del cliente (evita que falle import.meta.env en Astro)
       __WEB3FORMS_ACCESS_KEY__: JSON.stringify(web3formsKey),
     },
+    build: {
+      rollupOptions: {
+        onwarn(warning, defaultHandler) {
+          // Silenciar aviso de imports no usados en código interno de Astro (remotePattern.js)
+          if (warning.message && String(warning.message).includes('remotePattern')) return;
+          defaultHandler(warning);
+        },
+      },
+    },
   },
 });
