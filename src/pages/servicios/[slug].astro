@@ -28,70 +28,47 @@ const serviceFolderMap: Record<string, string> = {
 	'recuerdos-foto-video': 'recuerdosfotoyvideo'
 };
 
-// Función para obtener todas las imágenes de un servicio
+// Máximo de imágenes a cargar: 1 portada + 8 en galería (solo las necesarias)
+const MAX_SERVICE_IMAGES = 9;
+const IMG_EXT = 'jpeg'; // una sola extensión para no duplicar peticiones
+
+// Función para obtener solo las imágenes necesarias de un servicio (pocas, una extensión)
 function getServiceImages(slug: string): string[] {
 	const folderName = serviceFolderMap[slug] || slug;
 	const images: string[] = [];
-	const extensions = ['jpeg', 'jpg', 'png', 'webp'];
-	
-	// Patrones de nombres según el servicio
+	const ext = IMG_EXT;
+
 	if (slug === 'carritos') {
-		// carritos1, carritos2, etc.
-		for (let i = 1; i <= 50; i++) {
-			for (const ext of extensions) {
-				images.push(`/images/${folderName}/carritos${i}.${ext}`);
-			}
+		for (let i = 1; i <= MAX_SERVICE_IMAGES; i++) {
+			images.push(`/images/${folderName}/carritos${i}.${ext}`);
 		}
 	} else if (slug === 'juegos-mecanicos') {
-		// toro1, toro2, reloj1, reloj2, etc.
-		for (let i = 1; i <= 50; i++) {
-			for (const ext of extensions) {
-				images.push(`/images/${folderName}/toro${i}.${ext}`);
-				images.push(`/images/${folderName}/reloj${i}.${ext}`);
-			}
-		}
+		// toro (portada típica) + reloj, alternando pocos
+		for (let i = 1; i <= 5; i++) images.push(`/images/${folderName}/toro${i}.jpg`);
+		for (let i = 1; i <= 4; i++) images.push(`/images/${folderName}/reloj${i}.${ext}`);
 	} else if (slug === 'juegos-inflables') {
-		// inflable1, inflable2, etc.
-		for (let i = 1; i <= 50; i++) {
-			for (const ext of extensions) {
-				images.push(`/images/${folderName}/inflable${i}.${ext}`);
-			}
+		for (let i = 1; i <= MAX_SERVICE_IMAGES; i++) {
+			images.push(`/images/${folderName}/inflable${i}.${ext}`);
 		}
 	} else if (slug === 'juegos-de-salon') {
-		// arcade1, hockey1, tacataca1, aro1, etc.
-		for (let i = 1; i <= 50; i++) {
-			for (const ext of extensions) {
-				images.push(`/images/${folderName}/arcade${i}.${ext}`);
-				images.push(`/images/${folderName}/hockey${i}.${ext}`);
-				images.push(`/images/${folderName}/tacataca${i}.${ext}`);
-				images.push(`/images/${folderName}/aro${i}.${ext}`);
-			}
-		}
+		for (let i = 1; i <= 3; i++) images.push(`/images/${folderName}/arcade${i}.${ext}`);
+		for (let i = 1; i <= 2; i++) images.push(`/images/${folderName}/hockey${i}.${ext}`);
+		for (let i = 1; i <= 2; i++) images.push(`/images/${folderName}/tacataca${i}.${ext}`);
+		for (let i = 1; i <= 2; i++) images.push(`/images/${folderName}/aro${i}.${ext}`);
 	} else if (slug === 'juegos-stand') {
-		// stand1, stand2, etc.
-		for (let i = 1; i <= 50; i++) {
-			for (const ext of extensions) {
-				images.push(`/images/${folderName}/stand${i}.${ext}`);
-			}
+		for (let i = 1; i <= MAX_SERVICE_IMAGES; i++) {
+			images.push(`/images/${folderName}/stand${i}.${ext}`);
 		}
 	} else if (slug === 'shows') {
-		// produccion1, produccion2, etc.
-		for (let i = 1; i <= 50; i++) {
-			for (const ext of extensions) {
-				images.push(`/images/${folderName}/produccion${i}.${ext}`);
-			}
+		for (let i = 1; i <= MAX_SERVICE_IMAGES; i++) {
+			images.push(`/images/${folderName}/produccion${i}.${ext}`);
 		}
 	} else if (slug === 'recuerdos-foto-video') {
-		// totem1, totem2, giro1, giro2, etc.
-		for (let i = 1; i <= 50; i++) {
-			for (const ext of extensions) {
-				images.push(`/images/${folderName}/totem${i}.${ext}`);
-				images.push(`/images/${folderName}/giro${i}.${ext}`);
-			}
-		}
+		for (let i = 1; i <= 5; i++) images.push(`/images/${folderName}/totem${i}.${ext}`);
+		for (let i = 1; i <= 4; i++) images.push(`/images/${folderName}/giro${i}.${ext}`);
 	}
-	
-	return images;
+
+	return images.slice(0, MAX_SERVICE_IMAGES);
 }
 
 // Obtener todas las imágenes del servicio
